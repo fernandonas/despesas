@@ -10,7 +10,6 @@ import MessageBox from '../../Components/MessageBox'
 import happy from '../../Assets/happy.svg'
 import Sad from '../../Assets/sad.svg'
 import grinning from '../../Assets/grinning.svg'
-import Piecharts from '../../Components/piechart'
 
 const Dashboard: React.FC = () => {
     const [monthSelected, setMonthSelected] = useState<number>(new Date().getMonth() + 1);
