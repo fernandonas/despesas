@@ -8,13 +8,29 @@ export const Container = styled.div<IContainerProps>`
     width: 32%;
     height: 150px;
     margin: 10px 0px;
-
     background-color: ${props => props.color};
     color: ${props => props.theme.colors.white};
     border-radius: 7px;
     padding: 10px 20px;
     position: relative;
     overflow: hidden;
+
+    &:hover {
+        overflow: visible;
+    }
+
+    &:hover > img {
+        opacity: 1;
+        top: 1000px;
+        transform: rotate( 180deg );
+        transition: all 1s ease-in;
+    }
+
+    &:not(:hover) > img {
+        top: -10px;
+        transition: all 3s;
+    }
+
      > img {
          height: 110%;
          position: absolute;

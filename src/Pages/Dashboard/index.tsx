@@ -10,6 +10,7 @@ import MessageBox from '../../Components/MessageBox'
 import happy from '../../Assets/happy.svg'
 import Sad from '../../Assets/sad.svg'
 import grinning from '../../Assets/grinning.svg'
+import BalanceGrafic from '../../Components/BalanceGrafic'
 
 const Dashboard: React.FC = () => {
     const [monthSelected, setMonthSelected] = useState<number>(new Date().getMonth() + 1);
@@ -51,10 +52,10 @@ const Dashboard: React.FC = () => {
             const year = date.getFullYear();
             const month = date.getMonth() + 1;
 
-            if (month === monthSelected && year === yearSelected){                
+            if (month === monthSelected && year === yearSelected) {
                 try {
                     total += Number(item.amount);
-                    
+
                 } catch (error) {
                     throw new Error('Inválid amount! Amount must be an number.')
                 }
@@ -72,10 +73,10 @@ const Dashboard: React.FC = () => {
             const year = date.getFullYear();
             const month = date.getMonth() + 1;
 
-            if (month === monthSelected && year === yearSelected){                
+            if (month === monthSelected && year === yearSelected) {
                 try {
                     total += Number(item.amount);
-                    
+
                 } catch (error) {
                     throw new Error('Inválid amount! Amount must be an number.')
                 }
@@ -89,22 +90,22 @@ const Dashboard: React.FC = () => {
     }, [totalGains, totalExpenses]);
 
     const message = useMemo(() => {
-        if(totalBalance < 0){
-            return{
+        if (totalBalance < 0) {
+            return {
                 title: 'Que triste!',
                 description: 'Neste mês, você gastou mais do que deveria.',
                 footerText: 'Verifique seus gastos e tente cortar algumas coisas desnecessárias.',
                 icon: Sad
             }
         } else if (totalBalance === 0) {
-            return{
+            return {
                 title: 'Ufa!!',
                 description: 'Neste mês, você gastou exatamente o que ganhou!',
                 footerText: 'Tenha cuidado tente poupar no próximo mês!',
                 icon: grinning
             }
         } else {
-            return{
+            return {
                 title: 'Muito bem!',
                 description: 'Sua Carteira está positiva!!',
                 footerText: 'Continue assim considere investir seu saldo.',
@@ -112,6 +113,32 @@ const Dashboard: React.FC = () => {
             }
         }
     }, [totalBalance]);
+
+    const relationExpensesVsGains = useMemo(() => {
+        const total = totalGains + totalExpenses
+        const percentGains = (totalGains / total) * 100;
+        const percentExpenses = (totalExpenses / total) * 100;
+
+        debugger
+
+        const data = [
+            {
+                name: 'Entradas',
+                value: totalGains,
+                percent: isNaN(+percentGains.toFixed(1)) ? 0 : +percentGains.toFixed(1),
+                color: '#E44C4E'
+            },
+            {
+                name: 'Saídas',
+                value: totalExpenses,
+                percent: isNaN(+percentExpenses.toFixed(1)) ? 0 : +percentExpenses.toFixed(1) ,
+                color: '#F7931B'
+            },
+        ]
+
+        return data;
+
+    }, [totalGains, totalExpenses])
 
     const handleMonthSelected = (month: string) => {
         try {
@@ -159,7 +186,7 @@ const Dashboard: React.FC = () => {
                     footerLabel="Atualizado com base nas entradas e saídas."
                     icon="arrowUp"
                     color="#F7931B"
-                />                
+                />
                 <WalletBox
                     title="saídas"
                     amount={totalExpenses}
@@ -167,14 +194,16 @@ const Dashboard: React.FC = () => {
                     icon="arrowDown"
                     color="#E44C4E"
                 />
-                <MessageBox 
+                <MessageBox
                     icon={message.icon}
                     title={message.title}
                     description={message.description}
-                    footerText={message.footerText}                    
-                    >
-
+                    footerText={message.footerText}
+                >
                 </MessageBox>
+                <BalanceGrafic data={relationExpensesVsGains}>
+
+                </BalanceGrafic>
             </Content>
         </Container>
     )
