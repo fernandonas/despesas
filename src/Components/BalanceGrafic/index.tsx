@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, SideLeft, SideRight, Legend, LegendContainer, Pizza } from './styles';
+import { Container, SideLeft, SideRight, Legend, LegendContainer } from './styles';
+import RechartPie from '../../Components/RechartPie'
 
 interface IBalanceGraficProps {
     data: {
@@ -28,7 +29,8 @@ const BalanceGrafic: React.FC<IBalanceGraficProps> = ({ data }) => {
                 </LegendContainer>
             </SideLeft>
             <SideRight>
-                <Pizza />
+                <RechartPie data={data}/>
+
             </SideRight>
         </Container>
     )

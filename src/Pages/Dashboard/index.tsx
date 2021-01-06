@@ -11,6 +11,7 @@ import happy from '../../Assets/happy.svg'
 import Sad from '../../Assets/sad.svg'
 import grinning from '../../Assets/grinning.svg'
 import BalanceGrafic from '../../Components/BalanceGrafic'
+import HistoryBox from '../../Components/HistoryBox'
 
 const Dashboard: React.FC = () => {
     const [monthSelected, setMonthSelected] = useState<number>(new Date().getMonth() + 1);
@@ -24,7 +25,7 @@ const Dashboard: React.FC = () => {
             }
         });
 
-    }, [])
+    }, []);
 
     const years = useMemo(() => {
         let uniqueYears: number[] = [];
@@ -89,6 +90,49 @@ const Dashboard: React.FC = () => {
         return totalGains - totalExpenses;
     }, [totalGains, totalExpenses]);
 
+    const historyData = useMemo(() => {
+        return listOfMonths.map((_, month) => {
+
+            let amountEntry = 0;
+            gains.forEach(gain => {
+                const date = new Date(gain.date);
+                const gainMonth = date.getMonth();
+                const gainYear = date.getUTCFullYear();
+
+                if (gainMonth === month && gainYear === yearSelected) {
+                    try {
+                        amountEntry += +gain.amount;
+                    } catch (error) {
+                        throw new Error('Amount entry is inválid. Must be valid number.')
+                    }
+                }
+            });
+
+            let amountOutput = 0;
+            gains.forEach(expense => {
+                const date = new Date(expense.date);
+                const expenseMonth = date.getMonth();
+                const expenseYear = date.getUTCFullYear();
+
+                if (expenseMonth === month && expenseYear === yearSelected) {
+                    try {
+                        amountOutput += +expense.amount;
+                    } catch (error) {
+                        throw new Error('Amount output is inválid. Must be valid number.')
+                    }
+                }
+            })
+            return {
+                monthNumber : month,
+                month: listOfMonths[month].substr(0, 3),
+                amountEntry,
+                amountOutput
+            }
+        });
+
+
+    }, [yearSelected]);
+
     const message = useMemo(() => {
         if (totalBalance < 0) {
             return {
@@ -118,27 +162,25 @@ const Dashboard: React.FC = () => {
         const total = totalGains + totalExpenses
         const percentGains = (totalGains / total) * 100;
         const percentExpenses = (totalExpenses / total) * 100;
-
-        debugger
-
+        
         const data = [
             {
                 name: 'Entradas',
                 value: totalGains,
                 percent: isNaN(+percentGains.toFixed(1)) ? 0 : +percentGains.toFixed(1),
-                color: '#E44C4E'
+                color: '#F7931B'
             },
             {
                 name: 'Saídas',
                 value: totalExpenses,
-                percent: isNaN(+percentExpenses.toFixed(1)) ? 0 : +percentExpenses.toFixed(1) ,
-                color: '#F7931B'
+                percent: isNaN(+percentExpenses.toFixed(1)) ? 0 : +percentExpenses.toFixed(1),
+                color: '#E44C4E'
             },
         ]
 
         return data;
 
-    }, [totalGains, totalExpenses])
+    }, [totalGains, totalExpenses]);
 
     const handleMonthSelected = (month: string) => {
         try {
@@ -204,6 +246,9 @@ const Dashboard: React.FC = () => {
                 <BalanceGrafic data={relationExpensesVsGains}>
 
                 </BalanceGrafic>
+                <HistoryBox data={historyData} lineColorAmountEntry="" lineColorAmountOutput="">
+
+                </HistoryBox>
             </Content>
         </Container>
     )

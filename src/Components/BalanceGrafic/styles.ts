@@ -19,8 +19,6 @@ export const SideLeft = styled.aside`
     > h2 {
         margin-bottom: 20px;
     }
-
-
 `;
 
 export const SideRight = styled.main`
@@ -28,13 +26,6 @@ export const SideRight = styled.main`
     width: 100%;
     justify-content: center;
     align-items: center;
-`;
-
-export const Pizza = styled.div`
-    width: 160px;
-    height: 160px;
-    border-radius: 100%;
-    background-color: ${props => props.theme.colors.warning};
 `;
 
 export const Legend = styled.li<ILegendProps>`
