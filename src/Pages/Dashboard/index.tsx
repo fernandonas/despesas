@@ -109,10 +109,10 @@ const Dashboard: React.FC = () => {
             });
 
             let amountOutput = 0;
-            gains.forEach(expense => {
+            expenses.forEach(expense => {
                 const date = new Date(expense.date);
                 const expenseMonth = date.getMonth();
-                const expenseYear = date.getUTCFullYear();
+                const expenseYear = date.getFullYear();
 
                 if (expenseMonth === month && expenseYear === yearSelected) {
                     try {
@@ -128,6 +128,11 @@ const Dashboard: React.FC = () => {
                 amountEntry,
                 amountOutput
             }
+        }).filter(item => {
+                const currentMont = new Date().getMonth();
+                const currentYear = new Date().getFullYear();
+                return (yearSelected === currentYear && item.monthNumber <= currentMont ) || (yearSelected < currentYear)
+
         });
 
 
@@ -246,9 +251,7 @@ const Dashboard: React.FC = () => {
                 <BalanceGrafic data={relationExpensesVsGains}>
 
                 </BalanceGrafic>
-                <HistoryBox data={historyData} lineColorAmountEntry="" lineColorAmountOutput="">
-
-                </HistoryBox>
+                <HistoryBox data={historyData} lineColorAmountEntry="#F7931B" lineColorAmountOutput="#E44C4E" />
             </Content>
         </Container>
     )

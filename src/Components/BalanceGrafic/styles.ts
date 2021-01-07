@@ -55,6 +55,7 @@ export const Legend = styled.li<ILegendProps>`
 `;
 
 export const LegendContainer = styled.ul`
+
     list-style: none;
     max-height: 170px;
     padding-right: 15px;
@@ -63,6 +64,7 @@ export const LegendContainer = styled.ul`
     ::-webkit-scrollbar {
         width: 10px;
     }
+    
     ::-webkit-scrollbar-thumb {
         background-color: ${props => props.theme.colors.secondary};
         border-radius: 10px;
