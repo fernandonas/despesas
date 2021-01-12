@@ -3,11 +3,11 @@ import Switch, { ReactSwitchProps } from 'react-switch'
 
 export const Container = styled.div`
     display: flex;
-    align-items: center
+    align-items: center;
 `;
 
 export const ToggleLabel = styled.span`
-    color: ${props => props.theme.colors.white}
+    color: ${props => props.theme.colors.white};
 `;
 
 export const ToggleSelector = styled(Switch).attrs<ReactSwitchProps>(

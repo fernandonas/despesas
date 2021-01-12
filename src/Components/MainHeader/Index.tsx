@@ -6,8 +6,8 @@ import {
     Profile
 } from './styles';
 import emojis from '../../Utils/emojis';
-import Toggle from '../Toggle';
 import { useTheme } from '../../Hooks/theme';
+import Toggle from '../Toggle';
 
 const MainHeader: React.FC = () => {
 
